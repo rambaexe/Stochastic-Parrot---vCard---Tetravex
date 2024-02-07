@@ -14,7 +14,7 @@ readFileToList filePaths = fmap concat (mapM readFileToWords filePaths)
 readFileToWords :: FilePath -> IO [String]
 readFileToWords filePath = do
     contents <- readFile filePath
-    print (take 100 contents)
+    print (take 100 (words contents))
     return (words contents)
   
 
