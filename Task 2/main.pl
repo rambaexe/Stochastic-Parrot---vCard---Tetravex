@@ -1,11 +1,14 @@
-
 /*
     Task 2 - Prolog vCard validator
 
+    Include the rules and facts to knowledge base: consult(main).
     Running the validator and HTML convertor: validateandhtml("vcard.txt", "webpage.html").
 
-
-    Include the rules and facts to knowledge base: consult(main).
+    Cardinality rules (for Version 4.0):
+    1 - exactly one must be present: BEGIN, VERSION, END, FN
+    *1 - exactly one may be present: N, BDAY, ANNIVERSARY, GENDER
+    1* - one or more must be present: -
+    * - one or more may be present: LANG, ORG, ADR, TEL, EMAIL, GEO, KEY, TZ, URL
 
 */
 
@@ -19,7 +22,11 @@ validateandhtml(InFile, OutFile) :-
 validate_required(InFile, AST5) :-
     % Read file content
     read_file(InFile, Content),
+    
+    % initialise AST
     AST = [],
+
+    % check properties of cardinality 1 (required properties)
     % check if file begins with "BEGIN:VCARD"
     nth0(0, Content, Line),
     check_begin(Line, BeginAST),
@@ -38,7 +45,7 @@ validate_required(InFile, AST5) :-
     append(AST2, [EndAST], AST3),
     delete(Content2, Line2, Content3),
 
-    % check FN property and append it to AST
+    % check FN property 
     nth0(0, Content3, Line3),
     check_FN(Line3, FN_AST),
     append_at_index(2, AST3, FN_AST, AST4),
@@ -46,18 +53,24 @@ validate_required(InFile, AST5) :-
 
     write("Required properties satisfied.\n"),
 
-    % check if all properties are satisfied
+    % check cardinality for *1 properties
+    check_at_most_once_properties(Content4),
+
+    % check if all properties are satisfied for *1 or *
     AST_Properties = [],
     validate_properties(Content4, AST_Properties, AST_Properties_Out),
     write(AST_Properties_Out), nl,
 
-    % append empty list to AST at index 3
+    % append the properties found to AST at index 3
     append_at_index(3, AST4, [AST_Properties_Out], AST5),
 
     % print what is in AST
     write(AST5), nl.
 
 
+% validate properties - *1 or *
+% check if property (given in Line from Content) is valid
+% add valid ones to AST_Properties; otherwise throw error
 validate_properties([], AST_Properties, AST_Properties) :- 
     write("Properties are valid."), nl.
 
@@ -103,3 +116,4 @@ append_at_index(Index, List, Value, Result) :-
     length(Prefix, Index),
     append(Prefix, Suffix, List),
     append(Prefix, [Value|Suffix], Result).
+
