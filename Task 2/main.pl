@@ -13,10 +13,10 @@
 :- consult(converttohtml).
 
 validateandhtml(InFile, OutFile) :-
-    validate_required(InFile).
-    %, converthtml(InFile, OutFile).
+    validate_required(InFile, AST),
+    converthtml(AST, OutFile).
 
-validate_required(InFile) :-
+validate_required(InFile, AST5) :-
     % Read file content
     read_file(InFile, Content),
     AST = [],
