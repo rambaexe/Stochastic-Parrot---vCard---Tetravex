@@ -16,7 +16,8 @@ converthtml(AST, OutFile):-
     write(Stream, '</table>'),
     write(Stream, '</body>'),
     write(Stream, '</html>'),
-    close(Stream).
+    close(Stream),
+    write("HTML created successfully!").    
 
     convert([], _).
 convert([H|T], Stream):-
