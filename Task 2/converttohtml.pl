@@ -1,3 +1,5 @@
+% convert AST to HTML
+% create HTML file format with a table where AST is displayed
 converthtml(AST, OutFile):-
     open(OutFile, write, Stream),
     write(Stream, '<!DOCTYPE html>'),
@@ -17,14 +19,19 @@ converthtml(AST, OutFile):-
     write(Stream, '</body>'),
     write(Stream, '</html>'),
     close(Stream),
-    write("HTML created successfully!").    
+    write("HTML created successfully!"), nl, nl, nl.    
 
-    convert([], _).
+% convert AST to HTML table format
+% when property is a list, create a new row with the values
+% otherwise, create a new row with the property value
+% column on the left is the key (name of the property)
+% column on the right is the value of the property from the text file
+convert([], _).
 convert([H|T], Stream):-
     (   is_list(H)
     ->  (   length(H, 2), H = [Value1, Value2]
-        ->  write(Stream, '<tr>'),
-            write(Stream, '<td>'),
+        ->  write(Stream, '<tr>'),      % add row
+            write(Stream, '<td>'),      % add column
             write(Stream, Value1),
             write(Stream, '</td>'),
             write(Stream, '<td>'),

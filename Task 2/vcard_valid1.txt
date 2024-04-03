@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:4.0
+FN:Marie Curie
+N:Curie;Marie;;;M.Sc in Chemistry.
+ANNIVERSARY:20090808T1430-0500
+GENDER:F
+LANG;PREF=1:pl
+LANG;PREF=2:de
+LANG;PREF=3:en
+ORG;TYPE=work:CHEMISTRY
+ADR;TYPE=work:;23F;Nowy Swiat;Warsaw;WS;WS1;Poland
+EMAIL;TYPE=work:marie.currie@test.com
+END:VCARD

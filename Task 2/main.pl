@@ -10,10 +10,32 @@
     1* - one or more must be present: -
     * - one or more may be present: LANG, ORG, ADR, TEL, EMAIL, GEO, KEY, TZ, URL
 
+    vcard text files:
+    - vcard.txt: contains a valid vCard (from assignment brief - all properties present)
+
+    - vcard_valid1txt: contains a valid vCard (with missing optional properties)
+    - vcard_valid2.txt: contains a valid vCard (with all and more optional properties)
+    - vcard_valid3.txt: contains a valid vCard (with all properties in different order)
+
+    - vcard_invalid1.txt: contains an invalid vCard (missing required properties - BEGIN, VERSION, END, FN)
+    - vcard_invalid2.txt: contains an invalid vCard (duplicate required - 1 - properties)
+    - vcard_invalid3.txt: contains an invalid vCard (duplicate optional - *1 - properties)
+    - vcard_invalid4.txt: contains an invalid vCard (invalid property - gibberish)
+    - vcard_invalid5.txt: contains an invalid vCard (invalid property value)
+
+    to run valid tests: run_tests.
+    to run invalid tests:
+    - validateandhtml("vcard_invalid1.txt", "website.html").
+    - validateandhtml("vcard_invalid2.txt", "website.html").
+    - validateandhtml("vcard_invalid3.txt", "website.html").
+    - validateandhtml("vcard_invalid4.txt", "website.html").
+    - validateandhtml("vcard_invalid5.txt", "website.html").
+
 */
 
 :- consult(vcardvalidation).
 :- consult(converttohtml).
+
 
 validateandhtml(InFile, OutFile) :-
     validate_required(InFile, AST),
@@ -117,3 +139,9 @@ append_at_index(Index, List, Value, Result) :-
     append(Prefix, Suffix, List),
     append(Prefix, [Value|Suffix], Result).
 
+% run test cases
+run_tests:-
+    validateandhtml("vcard.txt", "website.html"),
+    validateandhtml("vcard_valid1.txt", "website1.html"),
+    validateandhtml("vcard_valid2.txt", "website2.html"),
+    validateandhtml("vcard_valid3.txt", "website3.html").

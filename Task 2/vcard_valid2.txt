@@ -1,0 +1,25 @@
+BEGIN:VCARD
+VERSION:4.0
+FN:Teodor Andrei Ramba
+N:Ramba;Teodor Andrei;;;,BSc Computer Science.
+BDAY:20020918
+ANNIVERSARY:20220918
+GENDER:M
+LANG;PREF=1:ro
+LANG;PREF=2:en
+LANG;PREF=3:de
+ORG;TYPE=work:Student Coventry University
+ORG;TYPE=work:Proctoring Coventry University
+ADR;TYPE=work:;test accommodation;test street;Coventry;CV;CV1 5QF;UnitedKingdom
+ADR;TYPE=home:;test; test street;Fagaras;FG;FG1;Romania
+TEL;VALUE=uri;TYPE="work,voice";PREF=1:tel:+1-418-656-9254;ext=40
+TEL;VALUE=uri;TYPE="work,cell,voice,video,text":tel:+1-418-262-6501
+EMAIL;TYPE=work:teodor.ramba@coventry.uk 
+EMAIL;PREF=4:example@example.com
+GEO;TYPE=test:geo:46.772673,-71.282945
+KEY;TYPE=work;VALUE=uri:http://www.viagenie.ca/simon.perreault/simon.asc
+KEY;MEDIATYPE=image/jpeg:https://www.hahasadasdcxfwrfffctest123.com/asdasdasxc.jpg
+TZ:-0500
+URL;TYPE=home:http://nomis80.org
+URL:http://www.yumyumexamapledetstsdf.com
+END:VCARD
