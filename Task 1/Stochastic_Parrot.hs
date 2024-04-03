@@ -4,6 +4,7 @@ import Data.List
 import Data.Map.Strict (Map)
 import qualified Data.Map as Map
 import Data.Typeable (typeOf)
+import System.Random
 
 
 -- fmap: https://hackage.haskell.org/package/base-4.19.0.0/docs/Data-Functor.html
@@ -15,7 +16,7 @@ readFileToWords :: FilePath -> IO [String]
 readFileToWords filePath = do
     contents <- readFile filePath
     --print (take 100 (words contents))
-    return (words contents)
+    return (map (map toLower) (words contents))
 
 -- unigramdict :: [(String, String)] -> [(String, [(String, Int)])]
 unigramdict cont = foldr updateModel [] (pairs cont)
@@ -57,14 +58,11 @@ getContent = do
         
     bookContent <- readFileToList filePaths
     return bookContent
-
-
-
     -- putStrLn "Type of the first word:"
     -- print (typeOf (head bookContent))
     -- mapM_ putStrLn (take 100 bookContent)
 
-printFirstEntries dict = mapM_ print (take 10 dict)
+printFirstEntries dict = mapM_ print dict
 
 
 main = do
