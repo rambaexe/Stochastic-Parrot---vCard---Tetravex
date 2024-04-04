@@ -5,16 +5,15 @@ import Data.Map.Strict (Map)
 import qualified Data.Map as Map
 import Data.Typeable (typeOf)
 import System.Random
-import Data.Time.Clock
-import Data.Time.LocalTime
 
+-- read file and return list of words in the file
 readFileToList :: [FilePath] -> IO [String]
 readFileToList filePaths = fmap concat (mapM readFileToWords filePaths)
 
+-- read file and return list of words in the file
 readFileToWords :: FilePath -> IO [String]
 readFileToWords filePath = do
     contents <- readFile filePath
-    --print (take 100 (words contents))
     return (map (map toLower) (words contents))
 
 -- bigram dictionary: save all the words with the next word following that; do not save the count of the next word
@@ -57,7 +56,7 @@ trigramdict3 cont = foldr updateModel Map.empty (triples cont)
 getContent = do  
     let book1 = "Text Files/A_Book_of_Discovery.txt"
         -- book2 = "Text Files/A_Literary_and_Historical_Atlas_of_Asia.txt"
-        -- book3 = "Text Files/Celebrated_Travels.txt"
+        book3 = "Text Files/Celebrated_Travels.txt"
         book4 = "Text Files/Commercial_Geography.txt"
         book5 = "Text Files/Darwin_and_Modern_Science_by_A_C_Seward.txt"
         book6 = "Text Files/Days_of_the_Discoverers.txt"
@@ -67,7 +66,7 @@ getContent = do
         book10 = "Text Files/The_Earth_and_its_inhabitants_Volume1_Europe.txt"
         
         -- filePaths = [book1, book2, book3, book4, book5, book6, book7, book8, book9, book10]
-        filePaths = [book1, book4, book5, book6, book8, book9, book10]
+        filePaths = [book1, book3, book4, book5, book6, book8, book9, book10]
 
         test = "Text Files/test.txt"
         --filePaths = [test]
