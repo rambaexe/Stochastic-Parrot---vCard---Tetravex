@@ -20,6 +20,63 @@ readFileToWords filePath = do
 
 -- unigramdict :: [(String, String)] -> [(String, [(String, Int)])]
 unigramdict cont = foldr updateModel [] (pairs cont)
+
+-- trigram dictionary: save all the words with the next two words and the count of the next two words
+trigramdict cont = foldr updateModel Map.empty (triples cont)
+  where
+    triples :: [a] -> [(a, a, a)]
+    triples [] = []
+    triples [_] = []
+    triples [_, _] = []
+    triples (x:y:z:conttail) = (x, y, z) : triples (y:z:conttail)
+
+    updateModel (x, y, z) trigramMap = case Map.lookup x trigramMap of
+        Just ys -> Map.insert x (updateWords y z ys) trigramMap
+        Nothing -> Map.insert x [(y, z, 1)] trigramMap
+
+    updateWords word1 word2 [] = [(word1, word2, 1)]
+    updateWords word1 word2 ((w1, w2, count) : ws)
+        | w1 == word1 && w2 == word2 = (w1, w2, count + 1) : ws
+        | otherwise = (w1, w2, count) : updateWords word1 word2 ws
+
+-- trigram dictionary 2: save all the words with the next two words following that; do not save the count of the next two words
+trigramdict2 cont = foldr updateModel Map.empty (triples cont)
+  where
+    triples :: [a] -> [(a, a, a)]
+    triples [] = []
+    triples [_] = []
+    triples [_, _] = []
+    triples (x:y:z:conttail) = (x, y, z) : triples (y:z:conttail)
+
+    updateModel (x, y, z) trigramMap = case Map.lookup x trigramMap of
+        Just ys -> Map.insert x (updateWords y z ys) trigramMap
+        Nothing -> Map.insert x [(y, z)] trigramMap
+
+    updateWords word1 word2 [] = [(word1, word2)]
+    updateWords word1 word2 ((w1, w2) : ws)
+        | w1 == word1 && w2 == word2 = (w1, w2) : ws
+        | otherwise = (w1, w2) : updateWords word1 word2 ws
+
+    -- bigram dictionary: save all the words with the next word and the count of the next word
+bigramdict cont = foldr updateModel Map.empty (pairs cont)
+where
+  pairs :: [a] -> [(a, a)]
+  pairs [] = []
+  pairs [_] = []
+  pairs (x:y:conttail) = (x, y) : pairs (y:conttail)
+
+  updateModel :: (String, String) -> Map String [(String, Int)] -> Map String [(String, Int)]
+  updateModel (x, y) bigramMap = case Map.lookup x bigramMap of
+      Just ys -> Map.insert x (updateWords y ys) bigramMap
+      Nothing -> Map.insert x [(y, 1)] bigramMap
+
+  updateWords :: String -> [(String, Int)] -> [(String, Int)]
+  updateWords word [] = [(word, 1)]
+  updateWords word ((w, count) : ws)
+      | w == word = (w, count + 1) : ws
+      | otherwise = (w, count) : updateWords word ws
+
+
   where
     pairs :: [a] -> [(a, a)]
     pairs [] = []
